@@ -4,8 +4,9 @@ import Footer from "./Footer"
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "../utils/firebase";
+import { auth, db } from "../utils/firebase";
 import { addUser, removeUser } from "../utils/userSlice";
+import { doc, getDoc } from "firebase/firestore";
 
 const Body = () => {
   const dispatch=useDispatch();
@@ -13,12 +14,23 @@ const Body = () => {
   const location=useLocation();
   
   useEffect(()=>{
-    const unsubscribe =onAuthStateChanged(auth, (user) => {
+    const unsubscribe =onAuthStateChanged(auth, async(user) => {
       if (user) {
         // User is signed in, see docs for a list of available properties
         // https://firebase.google.com/docs/reference/js/auth.user
         const {uid, email, displayName, photoURL} = user;
-        dispatch(addUser({uid:uid, email:email, displayName:displayName, photoURL:photoURL}));
+        const userRef=doc(db, "users", uid);
+        const userSnap = await getDoc(userRef);
+        let extraData = {};
+        if (userSnap.exists()) {
+          extraData = userSnap.data();
+        } else {
+          console.log("No additional user data found.");
+        }
+
+        // Merge Auth & Firestore data
+        dispatch(addUser({ uid, email, displayName, photoURL, ...extraData }));
+        // dispatch(addUser({uid:uid, email:email, displayName:displayName, photoURL:photoURL}));
         if (location.pathname === "/login") {
           navigate("/");
         }
