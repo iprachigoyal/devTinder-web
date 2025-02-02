@@ -1,5 +1,7 @@
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { auth } from "../utils/firebase";
+import { signOut } from "firebase/auth";
 
 
 
@@ -7,6 +9,14 @@ const Navbar = () => {
   const user = useSelector((store) => store.user);
  
   console.log(user);
+  const handleLogout=()=>{
+    signOut(auth).then(() => {
+      // Sign-out successful.
+    }).catch((error) => {
+      // An error happened.
+    });
+    
+  }
   
   return (
     <div className="navbar bg-base-300">
@@ -42,7 +52,7 @@ const Navbar = () => {
               <a>Settings</a>
             </li>
             <li>
-              <a>Logout</a>
+              <a onClick={handleLogout}>Logout</a>
             </li>
           </ul>
         </div>
