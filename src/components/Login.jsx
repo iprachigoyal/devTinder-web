@@ -1,15 +1,12 @@
 import { useState } from "react";
 import{signInWithEmailAndPassword} from "firebase/auth"
 import { auth } from "../utils/firebase";
-import { useDispatch } from "react-redux";
-import { addUser } from "../utils/userSlice";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
     const [emailid, setEmailId] = useState("");
     const [password, setPassword] = useState("");
     const [errorMessage, setErrorMessage]=useState(null);
-    const dispatch = useDispatch();
     const navigate=useNavigate();
     const handleLogin=()=>{
         signInWithEmailAndPassword(auth, emailid, password)
@@ -17,15 +14,7 @@ const Login = () => {
     // Signed in 
     const user = userCredential.user;
     console.log(user);
-    dispatch(
-        addUser({
-            uid: user.uid,
-            email: user.email,
-            displayName: user.displayName,
-            photoURL: user.photoURL,
-        })
-    );
-    navigate("/");
+    navigate("/")
     // ...
   })
   .catch((error) => {
