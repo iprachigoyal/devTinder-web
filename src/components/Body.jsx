@@ -24,9 +24,7 @@ const Body = () => {
         let extraData = {};
         if (userSnap.exists()) {
           extraData = userSnap.data();
-        } else {
-          console.log("No additional user data found.");
-        }
+        } 
 
         // Merge Auth & Firestore data
         dispatch(addUser({ uid, email, displayName, photoURL, ...extraData }));

@@ -6,13 +6,10 @@ import { removeUserFromFeed } from "../utils/feedSlice";
 const UserCard = ({user}) => {
   const dispatch=useDispatch();
     const{name, skills, photoURL, age, gender, about, email, uid} = user;
-    console.log(user);
     const senderId= useSelector(store=>store.user?.uid);
     const receiverId = uid;
-    console.log(senderId, receiverId);
     const sendConnectionRequest = async () => {
       if (!senderId) {
-        console.error("User not logged in or Redux state not initialized");
         return;
       }
   
@@ -30,15 +27,13 @@ const UserCard = ({user}) => {
         });
   
         dispatch(removeUserFromFeed(receiverId));
-        console.log("Request sent!");
       } catch (error) {
-        console.error("Error sending request: ", error);
+        // console.error("Error sending request: ", error);
       }
     };
     
     const ignoreUser = async () => {
       if (!senderId) {
-        console.error("User not logged in or Redux state not initialized");
         return;
       }
     
@@ -51,9 +46,8 @@ const UserCard = ({user}) => {
     
         // Remove the user from the Redux feed
         dispatch(removeUserFromFeed(receiverId));
-        console.log("User ignored:", receiverId);
       } catch (error) {
-        console.error("Error ignoring user: ", error);
+        // console.error("Error ignoring user: ", error);
       }
     };
   return (

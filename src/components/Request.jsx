@@ -47,7 +47,7 @@ const ConnectionRequests = () => {
               setRequests(requestsData);
               dispatch(addRequests(requestsData));
             } catch (error) {
-              console.error("Error fetching requests:", error);
+            //   console.error("Error fetching requests:", error);
             }
         };
       
@@ -73,7 +73,6 @@ const ConnectionRequests = () => {
           
               // If the document exists
               if (querySnapshot.empty) {
-                console.error("No matching document found for the request.");
                 return;
               }
           
@@ -96,7 +95,7 @@ const ConnectionRequests = () => {
               // Remove the request from UI
               setRequests((prev) => prev.filter((req) => req.id !== requestId));
             } catch (error) {
-              console.error("Error accepting request:", error);
+            //   console.error("Error accepting request:", error);
             }
           };
           
@@ -112,7 +111,6 @@ const ConnectionRequests = () => {
               const querySnapshot = await getDocs(requestRefQuery);
           
               if (querySnapshot.empty) {
-                console.error("No matching document found for the request.");
                 return;
               }
           

@@ -15,11 +15,9 @@ const Profile = () => {
           const userDoc = await getDoc(doc(db, "users", authUser.uid));
           if (userDoc.exists()) {
             setUser(userDoc.data());
-          } else {
-            console.log("User profile not found!");
           }
         } catch (error) {
-          console.error("Error fetching user profile:", error);
+          // console.error("Error fetching user profile:", error);
         }
       };
       fetchUserProfile();

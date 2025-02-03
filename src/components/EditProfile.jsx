@@ -42,7 +42,6 @@ const EditProfile = ({ user }) => {
         setShowToast(false);
       }, 3000);
     } catch (error) {
-      console.error("Error updating profile:", error);
       alert("Failed to update profile.");
     }
   };

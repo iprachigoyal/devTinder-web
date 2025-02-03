@@ -43,7 +43,6 @@ const ConnectionsPage = () => {
       setConnections(connectionsData);
       setLoading(false);
     } catch (error) {
-      console.error("Error fetching connections:", error);
       setLoading(false);
     }
   };

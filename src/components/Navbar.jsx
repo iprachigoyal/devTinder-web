@@ -7,8 +7,6 @@ import { signOut } from "firebase/auth";
 
 const Navbar = () => {
   const user = useSelector((store) => store.user);
- 
-  console.log(user);
   const handleLogout=()=>{
     signOut(auth).then(() => {
       // Sign-out successful.
