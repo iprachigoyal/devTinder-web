@@ -12,10 +12,8 @@ const EditProfile = ({user}) => {
   const [photoURL, setPhotoURL] = useState(user.photoURL || "");
   const [gender, setGender] = useState(user.gender || "");
   const [about, setAbout] = useState(user.about || "");
-  const [loading, setLoading] = useState(false);
   const [showToast, setShowToast] = useState(false);
 const handleSave=async()=>{
-    setLoading(true);
     try {
       const userRef = doc(db, "users", user.uid);
       const updatedData = { displayName, age, photoURL, gender, about };
@@ -33,7 +31,6 @@ const handleSave=async()=>{
       alert("Failed to update profile.");
 
     }
-    setLoading(false);
   };
 
   return (

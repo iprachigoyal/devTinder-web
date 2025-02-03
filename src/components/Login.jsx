@@ -1,13 +1,15 @@
 import { useState } from "react";
 import{signInWithEmailAndPassword} from "firebase/auth"
 import { auth } from "../utils/firebase";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Login = () => {
     const [emailid, setEmailId] = useState("");
     const [password, setPassword] = useState("");
     const [errorMessage, setErrorMessage]=useState(null);
+    
     const navigate=useNavigate();
+
     const handleLogin=()=>{
         signInWithEmailAndPassword(auth, emailid, password)
   .then((userCredential) => {
@@ -57,6 +59,9 @@ const Login = () => {
           <div className="card-actions justify-end m-2">
             <button className="btn btn-primary" onClick={handleLogin}>Login</button>
           </div>
+          <p onClick={(e) => e.stopPropagation()}>
+  New User? <Link to="/signup">Sign Up Here</Link>
+</p>
         </div>
       </div>
     </div>

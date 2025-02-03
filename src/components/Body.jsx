@@ -41,13 +41,15 @@ const Body = () => {
       } else {
         // User is signed out
         dispatch(removeUser());
-        navigate("/login");
+        if (location.pathname !== "/signup") {
+          navigate("/login");
+        }
         // ...
       }
     });
     return () => unsubscribe();
 
-  },[dispatch, navigate, location])
+  },[dispatch, navigate])
 
   return (
     <div>

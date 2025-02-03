@@ -1,5 +1,5 @@
 const UserCard = ({user}) => {
-    const{displayName, skills, photoURL, age, gender, about}=user;
+    const{name, skills, photoURL, age, gender, about}=user;
     console.log(user)
   return (
     <div className="card bg-base-300 w-96 shadow-xl">
