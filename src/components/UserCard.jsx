@@ -1,4 +1,4 @@
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, arrayUnion, collection, doc, updateDoc } from "firebase/firestore";
 import { db } from "../utils/firebase";
 import { useDispatch, useSelector } from "react-redux";
 import { removeUserFromFeed } from "../utils/feedSlice";
@@ -17,21 +17,44 @@ const UserCard = ({user}) => {
       }
   
       try {
-        await addDoc(collection(db, "connection"), {
+        await addDoc(collection(db, "connections"), {
           senderId,
           receiverId,
           status: "pending",
           timestamp: new Date(),
         });
+  
+        const userRef = doc(db, "users", senderId);
+        await updateDoc(userRef, {
+          connectedUsers: arrayUnion(receiverId),
+        });
+  
+        dispatch(removeUserFromFeed(receiverId));
         console.log("Request sent!");
-        dispatch(removeUserFromFeed(receiverId))
       } catch (error) {
         console.error("Error sending request: ", error);
       }
     };
-    const ignoreUser = () => {
-      dispatch(removeUserFromFeed(receiverId)); // Simply remove from feed
-      console.log("User ignored:", receiverId);
+    
+    const ignoreUser = async () => {
+      if (!senderId) {
+        console.error("User not logged in or Redux state not initialized");
+        return;
+      }
+    
+      try {
+        // Add the ignored user to the current user's document in Firestore
+        const userRef = doc(db, "users", senderId);
+        await updateDoc(userRef, {
+          ignoredUsers: arrayUnion(receiverId),
+        });
+    
+        // Remove the user from the Redux feed
+        dispatch(removeUserFromFeed(receiverId));
+        console.log("User ignored:", receiverId);
+      } catch (error) {
+        console.error("Error ignoring user: ", error);
+      }
     };
   return (
     <div className="card bg-base-300 w-96 shadow-xl">
